@@ -6,6 +6,7 @@
       {
         "id": "282502f2f66ed6bc",
         "type": "tabs",
+        "dimension": 48.014440433213,
         "children": [
           {
             "id": "089d9b5c158e1f52",
@@ -13,7 +14,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "CS Basics.md",
+                "file": "CS/CS Basics.md",
                 "mode": "source",
                 "source": false
               }
@@ -24,13 +25,30 @@
       {
         "id": "0c7ce83e00048297",
         "type": "tabs",
+        "dimension": 51.985559566786996,
         "children": [
           {
             "id": "d7676b3e94700b05",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "Algorithm Test/Bronze/수학은 비대면강의입니다..md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "f66a606c008133b1",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Algorithm Test/백준.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -99,6 +117,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Algorithm Test/Bronze/수학은 비대면강의입니다..md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -115,6 +134,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Algorithm Test/Bronze/수학은 비대면강의입니다..md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -136,7 +156,9 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "Algorithm Test/Bronze/수학은 비대면강의입니다..md"
+              }
             }
           }
         ]
@@ -158,13 +180,17 @@
   },
   "active": "d7676b3e94700b05",
   "lastOpenFiles": [
-    "CS Basics.md",
-    "Game Server.md",
-    "Multi-thread.md",
-    "Untitled",
+    "CS/CS Basics.md",
+    "Algorithm Test/Bronze/수학은 비대면강의입니다..md",
+    "Algorithm Test/백준.md",
+    "Algorithm Test/Bronze",
+    "Algorithm Test",
+    "CS/Algorithm.md",
+    "CS",
+    "CS/Multi-thread.md",
+    "CS/Game Server.md",
     "GameServer",
-    "Algorithm.md",
-    "Data Structure.md",
+    "CS/Data Structure.md",
     "Untitled.canvas"
   ]
 }

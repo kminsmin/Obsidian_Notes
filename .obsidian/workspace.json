@@ -52,6 +52,16 @@
             }
           },
           {
+            "id": "34dc720128e9c6a1",
+            "type": "leaf",
+            "state": {
+              "type": "release-notes",
+              "state": {
+                "currentVersion": "1.6.7"
+              }
+            }
+          },
+          {
             "id": "f66a606c008133b1",
             "type": "leaf",
             "state": {
@@ -110,7 +120,8 @@
               "state": {}
             }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "horizontal",
@@ -193,6 +204,9 @@
   },
   "active": "74f8cb175287eca4",
   "lastOpenFiles": [
+    "Pasted image 20240806234344.png",
+    "Pasted image 20240806234240.png",
+    "Pasted image 20240806233902.png",
     "Algorithm Test/Bronze/수학은 비대면강의입니다..md",
     "CS/Multi-thread.md",
     "CS/Game Server.md",

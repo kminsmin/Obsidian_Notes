@@ -189,3 +189,125 @@ namespace ServerCore
 배열들의 배열을 검사한다. 전자는 검사할 때, 한 배열의 내부 요소를 전부 검사한 후 다음 배열로 넘어간다. 후자의 경우, 배열 하나의 몇 번째 요소를 검사 후,  다른 배열로 넘어가서 같은 순서의 요소를 검사하는 방식이다. 즉, 캐싱이 제대로 이루어지는 환경이라면, 앞서 언급된 원칙에 따라 특정 데이터에 접근할 때 그 주변 데이터나 최신 데이터를 캐싱하기 때문에, 메인 메모리까지 접근하지 않아서 데이터에 접근하는 시간이 줄어든다.
 
 후기 : 새롭다...어렵다...
+
+## 메모리 배리어
+```cs
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace ServerCore
+{
+    class Program
+    {
+        static int x = 0;
+        static int y = 0;
+        static int r1 = 0;
+        static int r2 = 0;
+
+        static void Thread1()
+        {
+            y = 1; // Store y
+            r1 = x; // Load x
+        }
+
+        static void Thread2()
+        {
+            x = 1; // Store x
+            r2 = y; //Load y
+        }
+        static void Main(string[] args)
+        {
+            int count = 0;
+            while(true)
+            {
+                count++;
+                x = y = r1 = r2 = 0;
+
+                Task t1 = new Task(Thread1);
+                Task t2 = new Task(Thread2);
+                t1.Start();
+                t2.Start();
+
+                Task.WaitAll(t1, t2);
+
+                if (r1 == 0 && r2 == 0)
+                    break;
+            }
+            Console.WriteLine($"{count}번만에 빠져나옴");
+        }
+    }
+}
+
+```
+위 예제를 보자. 메인 메서드의 무한 루프를 빠져나오려면, r1과 r2 모두 0이 되어야 한다. 하지만 상식적으로, 두 스레드의 작업을 보면 알 수 있듯이 두 결과값이 동시에 0인 경우는 발생할 수 없다는 것을 알 수 있다. 하지만 놀랍게도 위 코드의 실행 결과화면을 보자.
+![[Pasted image 20240807135308.png]]
+횟수는 늘 달라지지만, 어이없게도 늘 무한루프를 빠져나오는 현상이 발견된다. 왜 이럴까?
+
+### 하드웨어 최적화
+저번에 배웠던 컴파일러 최적화처럼, 하드웨어도 지 맘대로 코드를 재배치하며 최적화를 하곤 한다. 예를 들어 각 스레드에서 값을 Store하고 Load하는 부분이, 컴퓨터 입장에서 보면 순서가 바뀌어도 상관이 없다고 봐서, 멋대로 코드를 재배치할 수 도 있다는 것이다. 하지만 위 코드에서 store와 load하는 부분을 바꿔버리면,  결과값이 둘 다 0이 되는 경우가 발생하게 되어, 무한루프에서 빠져나올 수 있게 되는 것이다. 하하!  
+
+그렇다면 이러한 의도치 않은 최적화를 막기 위해서는 어떤 방법이 있을까?
+
+### Thread.MemoryBarrier()
+```cs
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace ServerCore
+{
+    class Program
+    {
+        static int x = 0;
+        static int y = 0;
+        static int r1 = 0;
+        static int r2 = 0;
+
+        static void Thread1()
+        {
+            y = 1; // Store y
+            Thread.MemoryBarrier();
+            r1 = x; // Load x
+        }
+
+        static void Thread2()
+        {
+            x = 1; // Store x
+            Thread.MemoryBarrier();
+            r2 = y; //Load y
+        }
+        static void Main(string[] args)
+        {
+            int count = 0;
+            while(true)
+            {
+                count++;
+                x = y = r1 = r2 = 0;
+
+                Task t1 = new Task(Thread1);
+                Task t2 = new Task(Thread2);
+                t1.Start();
+                t2.Start();
+
+                Task.WaitAll(t1, t2);
+
+                if (r1 == 0 && r2 == 0)
+                    break;
+            }
+            Console.WriteLine($"{count}번만에 빠져나옴");
+        }
+    }
+}
+
+```
+앞서 소개된 코드에서 store와 load하는 부분 사이에 코드 한 줄만 추가한 것이다. 그런데 결과는 놀랍게도 원래 의도처럼 무한루프에서 빠져나오지 않게 변한 것을 볼 수 있다. 
+
+메모리 배리어의 역할은 크게 2가지가 있다.
+- 코드 재배치 억제 : 말 그대로
+- 가시성 : (맞는건지 모르겠다) Store 하면 바로 메인 메모리에 갖다 쓰고, Load하면 캐시가 아니라 메인 메모리에서 가져와서 혼선을 막는..그런걸로 일단 이해함
+
+위 예제에서는 코드 재배치를 억제하여 정상적으로 작동할 수 있게 되었다. 메모리 배리어는 종류도 3가지가 있다. 이름 그대로의 역할을 한다. 참 쉽죠잉?
+- Full Memory Barrier
+- Store Memory Barrier
+- Load Memory Barrier

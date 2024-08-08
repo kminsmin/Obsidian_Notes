@@ -311,3 +311,105 @@ namespace ServerCore
 - Full Memory Barrier
 - Store Memory Barrier
 - Load Memory Barrier
+
+
+## Interlocked
+```cs
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace ServerCore
+{
+    class Program
+    {
+        static int number = 0;
+        
+        static void Thread1()
+        {
+            for (int i = 0; i < 1000000; i++)
+                number++
+        }
+
+        static void Thread2()
+        {
+            for (int i = 0; i < 1000000; i++)
+                number--;
+        }
+        static void Main(string[] args)
+        {
+            Task t1 = new Task(Thread1);
+            Task t2 = new Task(Thread2);
+            t1.Start();
+            t2.Start();
+
+            Task.WaitAll(t1, t2);
+
+            Console.WriteLine(number);
+        }
+    }
+}
+
+```
+같은 횟수만큼 더하고, 같은 횟수만큼 빼는 작업이므로 우리가 하는 수학적 상식에 의하면 결과는 0이어야 한다. 하지만?
+![[Pasted image 20240808145940.png]]
+또 멀티 쓰레드 환경에서는 우리의 상식이 통하지 않는 모습을 볼 수 있다. number를 `volatile` 로 선언해도 소용없더라. 이는 경합 조건 때문에 일어나는 현상이다. 
+
+### 경합 조건 (Race Condition)
+고급 식당에 비유해보자. 앞서 우리는 직원들(스레드)이 주문 현황표(메인 메모리)로부터 주문을 확인하도록 하여 변경사항에 잘 대응할 수 있는 방법을 알아보았다. 2번 테이블에서 콜라 한 병을 주문했다. 이때 새로 들어온 열정 넘치는 신입 직원 여러명이 동시에 2번 테이블로 콜라를 배달하려고 한다. 2번 테이블 손님은 콜라 한 병만 주문했는데 콜라 3병을 받아버린다. 이게 경합조건이다.
+
+한편으로는 이렇게 생각할 수도 있다. 단순히 숫자를 더하고 빼는 작업인데, 그리고 같은 횟수만큼 진행할 거, 순서가 좀 변하고 엎치락뒤치락 해도 결과는 0이 나와야 하는거 아니냐! 하지만 number++, number--의 과정은 생각보다 단순하지 않더라. 해당 작업에 break point를 걸고 디스어셈블리 창을 켜보자.
+![[Pasted image 20240808152626.png]]
+우리의 생각처럼 한방에 이루어지는 작업이 아니더라. 이걸 이해하기 쉽게 알아볼 수 있는 언어로 써보면 다음과 같은 작업이다.
+```cs
+int temp = number;
+temp += 1;
+number = temp;
+
+int temp = number;
+temp -= 1;
+number = temp;
+```
+0부터 시작했을 때, 스레드 1은  `number`에 1을 넣으려 할 것이고, 스레드 2는 -1을 넣으려 할 것이다. 그러나 누가 먼저 접근할지는 모른다. 이런 일이 계속돼다 보니 위에서 나온 참사가 발생하는 것이다. 이런 일을 방지하기 위해서는 number++, number--의 작업, 즉 값을 메모리에서 가져오고, 변경하고, 다시 쓰는 작업이, 동시에 일어나야 한다. **원자적으로** 일어나야 한다는 것이다. 이러한 특성을 원자성(Atomic)이라고 한다.
+### Interlocked
+자 그럼 저 작업이 원자적으로 일어나게 하려면 어떻게 할까?
+```cs
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace ServerCore
+{
+    class Program
+    {
+        static int number = 0;
+        
+        static void Thread1()
+        {
+            for (int i = 0; i < 1000000; i++)
+                Interlocked.Increment(ref number);
+        }
+
+        static void Thread2()
+        {
+            for (int i = 0; i < 1000000; i++)
+                Interlocked.Decrement(ref number);
+        }
+        static void Main(string[] args)
+        {
+            Task t1 = new Task(Thread1);
+            Task t2 = new Task(Thread2);
+            t1.Start();
+            t2.Start();
+
+            Task.WaitAll(t1, t2);
+
+            Console.WriteLine(number);
+        }
+    }
+}
+
+```
+`Interlocked` 클래스를 활용하는 방법이 있다. 
+![[Pasted image 20240808153942.png]]
+정상적으로 0이 출력되는 모습을 볼 수 있다. 그리고 Interlocked를 사용한 순간 관련된 변수는 자동으로 volatile 과 비스무리하게 처리되기 때문에 굳이 volitile 키워드를 같이 사용할 필요도 없다. 그렇다고 언제 어디서나 Interlocked를 자유자재로 사용하면 좋겠구나! 라고 하면 안된다. Interlocked 작업은, All or nothing. 하나의 작업만 진행한다. 즉 성능적으로 손해를 보게 된다. 시기적절하게 사용하도록 하자. 

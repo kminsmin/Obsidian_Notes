@@ -119,9 +119,17 @@
               "type": "bookmarks",
               "state": {}
             }
+          },
+          {
+            "id": "c1bf915dd7448f0c",
+            "type": "leaf",
+            "state": {
+              "type": "recent-files",
+              "state": {}
+            }
           }
         ],
-        "currentTab": 1
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -202,7 +210,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "74f8cb175287eca4",
+  "active": "c1bf915dd7448f0c",
   "lastOpenFiles": [
     "Pasted image 20240808153942.png",
     "Pasted image 20240808152626.png",

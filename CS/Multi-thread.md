@@ -412,4 +412,171 @@ namespace ServerCore
 ```
 `Interlocked` 클래스를 활용하는 방법이 있다. 
 ![[Pasted image 20240808153942.png]]
-정상적으로 0이 출력되는 모습을 볼 수 있다. 그리고 Interlocked를 사용한 순간 관련된 변수는 자동으로 volatile 과 비스무리하게 처리되기 때문에 굳이 volitile 키워드를 같이 사용할 필요도 없다. 그렇다고 언제 어디서나 Interlocked를 자유자재로 사용하면 좋겠구나! 라고 하면 안된다. Interlocked 작업은, All or nothing. 하나의 작업만 진행한다. 즉 성능적으로 손해를 보게 된다. 시기적절하게 사용하도록 하자. 
+정상적으로 0이 출력되는 모습을 볼 수 있다. 그리고 Interlocked를 사용한 순간 관련된 변수는 자동으로 volatile 과 비스무리하게 처리되기 때문에 굳이 volitile 키워드를 같이 사용할 필요도 없다. 그렇다고 언제 어디서나 Interlocked를 자유자재로 사용하면 좋겠구나! 라고 하면 안된다. Interlocked 작업은, All or nothing. 하나의 작업만 진행한다. 즉 성능적으로 손해를 보게 된다. 시기적절하게 사용하도록 하자.   
+
+## Lock 기초
+앞선 시간에 Interlocked를 사용해서 경합조건을 방지하는 방법을 알아보았다. 하지만 Interlocked로만 구현하기에는 어려운 기능을 atomic하게 구현해야 할 때도 있는데, 이럴 때 사용할 수 있는 방법을 알아보자.  
+## Monitor.Enter & Exit
+```cs
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace ServerCore
+{
+    class Program
+    {
+        static int number = 0;
+        static object _obj = new object();
+        
+        static void Thread1()
+        {
+            for (int i = 0; i < 1000000; i++)
+            {
+                // 상호배제 Mutual Exclusive
+                Monitor.Enter(_obj); //문을 잠그는 행위
+                number++;
+                Monitor.Exit(_obj); // 잠금을 풀어준다
+            }
+                
+        }
+
+        static void Thread2()
+        {
+            for (int i = 0; i < 1000000; i++)
+            {
+                Monitor.Enter(_obj);
+                number--;
+                Monitor.Exit(_obj);
+            }
+                
+        }
+        static void Main(string[] args)
+        {
+            Task t1 = new Task(Thread1);
+            Task t2 = new Task(Thread2);
+            t1.Start();
+            t2.Start();
+
+            Task.WaitAll(t1, t2);
+
+            Console.WriteLine(number);
+        }
+    }
+}
+
+```  
+먼저 스태틱 변수로 오브젝트를 선언해준다. 이 오브젝트는 앞으로 '자물쇠' 같은 역할을 한다. `Moniter.Enter`는 문을 잠그고, `Monitor.Exit` 는 잠금을 해제하는 역할을 한다. 이렇게 둘의 사이에 있는 코드들은 상호 배제 하게 되어, `Interlocked`를 사용해서 `number` 변수가 변화되는 부분을 atomic하게 했던 것 같은 효과를 볼 수 있다. 
+다만, 반드시 Enter와 Exit가 짝으로 이뤄져야 한다. Enter는 했는데 예외가 발생하거나, 실수로 중간에 `return`을 때려버린다거나 등으로, Exit로 잠금을 해제해주지 않으면, 상호 배제 상태인 다른 쪽 Enter&Exit 부분이 Deadlock 상태가 되어 영영 실행되지 않는다. 마치 화장실에 똥싸러 가서 문을 잠그고, 다시 안 열어줘서 다른 사람이 똥을 싸러 가지 못하는 것과 같은 이치다. 그렇다면 이런 문제를 어떻게 예방할 수 있을까?
+
+```cs
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace ServerCore
+{
+    class Program
+    {
+        static int number = 0;
+        static object _obj = new object();
+        
+        static void Thread1()
+        {
+            for (int i = 0; i < 1000000; i++)
+            {
+                try
+                {
+                    // 상호배제 Mutual Exclusive
+                    Monitor.Enter(_obj); //문을 잠그는 행위
+                    number++;
+                }
+                finally
+                {
+                    Monitor.Exit(_obj); // 잠금을 풀어준다
+                }
+                
+            }
+                
+        }
+
+        static void Thread2()
+        {
+            for (int i = 0; i < 1000000; i++)
+            {
+                Monitor.Enter(_obj);
+                number--;
+                Monitor.Exit(_obj);
+            }
+                
+        }
+        static void Main(string[] args)
+        {
+            Task t1 = new Task(Thread1);
+            Task t2 = new Task(Thread2);
+            t1.Start();
+            t2.Start();
+
+            Task.WaitAll(t1, t2);
+
+            Console.WriteLine(number);
+        }
+    }
+}
+
+```
+위처럼 `try-finally`를 이용하면 예외가 발생해도, `return`을 때려도 finally 문 안의 코드는 반드시 실행되기 때문에 `Monitor.Exit`를 무슨 일이 있어도 실행할 수 있다. 하지만 늘 이런 식으로 코드를 짜기에는 번거롭다. 더 쉬운 방법을 알아보자.
+
+### Lock
+```cs
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace ServerCore
+{
+    class Program
+    {
+        static int number = 0;
+        static object _obj = new object();
+        
+        static void Thread1()
+        {
+            for (int i = 0; i < 1000000; i++)
+            {
+                lock(_obj)
+                {
+                    number++;
+                }
+                
+            }
+                
+        }
+
+        static void Thread2()
+        {
+            for (int i = 0; i < 1000000; i++)
+            {
+                lock (_obj)
+                {
+                    number--;
+                }
+            }
+                
+        }
+        static void Main(string[] args)
+        {
+            Task t1 = new Task(Thread1);
+            Task t2 = new Task(Thread2);
+            t1.Start();
+            t2.Start();
+
+            Task.WaitAll(t1, t2);
+
+            Console.WriteLine(number);
+        }
+    }
+}
+
+```  
+앞서 나온 내용을 쉽게 사용할 수 있는 것 이 `Lock`이다. 이 기능을 적극적으로 활용하도록 하자. 지가 알아서 잠그고 풀고 한다.

@@ -370,7 +370,7 @@ int temp = number;
 temp -= 1;
 number = temp;
 ```
-0부터 시작했을 때, 스레드 1은  `number`에 1을 넣으려 할 것이고, 스레드 2는 -1을 넣으려 할 것이다. 그러나 누가 먼저 접근할지는 모른다. 이런 일이 계속돼다 보니 위에서 나온 참사가 발생하는 것이다. 이런 일을 방지하기 위해서는 number++, number--의 작업, 즉 값을 메모리에서 가져오고, 변경하고, 다시 쓰는 작업이, 동시에 일어나야 한다. **원자적으로** 일어나야 한다는 것이다. 이러한 특성을 원자성(Atomic)이라고 한다.
+0부터 시작했을 때, 스레드 1은  `number`에 1을 넣으려 할 것이고, 스레드 2는 -1을 넣으려 할 것이다. 그러나 누가 먼저 접근할지는 모른다. 이런 일이 계속돼다 보니 위에서 나온 참사가 발생하는 것이다. 이런 일을 방지하기 위해서는 number++, number--의 작업, 즉 값을 메모리에서 가져오고, 변경하고, 다시 쓰는 작업이, 동시에 일어나야 한다. **<font color="#ffc000">원자적으로</font>** 일어나야 한다는 것이다. 이러한 특성을 <font color="#ffc000">원자성(Atomic)</font>이라고 한다.
 ### Interlocked
 자 그럼 저 작업이 원자적으로 일어나게 하려면 어떻게 할까?
 ```cs
@@ -416,7 +416,7 @@ namespace ServerCore
 
 ## Lock 기초
 앞선 시간에 Interlocked를 사용해서 경합조건을 방지하는 방법을 알아보았다. 하지만 Interlocked로만 구현하기에는 어려운 기능을 atomic하게 구현해야 할 때도 있는데, 이럴 때 사용할 수 있는 방법을 알아보자.  
-## Monitor.Enter & Exit
+### Monitor.Enter & Exit
 ```cs
 using System;
 using System.Threading;
@@ -467,7 +467,7 @@ namespace ServerCore
 
 ```  
 먼저 스태틱 변수로 오브젝트를 선언해준다. 이 오브젝트는 앞으로 '자물쇠' 같은 역할을 한다. `Moniter.Enter`는 문을 잠그고, `Monitor.Exit` 는 잠금을 해제하는 역할을 한다. 이렇게 둘의 사이에 있는 코드들은 상호 배제 하게 되어, `Interlocked`를 사용해서 `number` 변수가 변화되는 부분을 atomic하게 했던 것 같은 효과를 볼 수 있다. 
-다만, 반드시 Enter와 Exit가 짝으로 이뤄져야 한다. Enter는 했는데 예외가 발생하거나, 실수로 중간에 `return`을 때려버린다거나 등으로, Exit로 잠금을 해제해주지 않으면, 상호 배제 상태인 다른 쪽 Enter&Exit 부분이 Deadlock 상태가 되어 영영 실행되지 않는다. 마치 화장실에 똥싸러 가서 문을 잠그고, 다시 안 열어줘서 다른 사람이 똥을 싸러 가지 못하는 것과 같은 이치다. 그렇다면 이런 문제를 어떻게 예방할 수 있을까?
+다만, 반드시 Enter와 Exit가 짝으로 이뤄져야 한다. Enter는 했는데 예외가 발생하거나, 실수로 중간에 `return`을 때려버린다거나 등으로, Exit로 잠금을 해제해주지 않으면, 상호 배제 상태인 다른 쪽 Enter&Exit 부분이 <font color="#ffc000">Deadlock</font> 상태가 되어 영영 실행되지 않는다. 마치 화장실에 똥싸러 가서 문을 잠그고, 다시 안 열어줘서 다른 사람이 똥을 싸러 가지 못하는 것과 같은 이치다. 그렇다면 이런 문제를 어떻게 예방할 수 있을까?
 
 ```cs
 using System;
@@ -579,4 +579,197 @@ namespace ServerCore
 }
 
 ```  
-앞서 나온 내용을 쉽게 사용할 수 있는 것 이 `Lock`이다. 이 기능을 적극적으로 활용하도록 하자. 지가 알아서 잠그고 풀고 한다.
+앞서 나온 내용을 쉽게 사용할 수 있는 것 이 `Lock`이다. 이 기능을 적극적으로 활용하도록 하자. 지가 알아서 잠그고 풀고 한다.  
+
+## Deadlock
+
+이전 시간에 `Moniter.Enter &Exit`가 쌍으로 일어나지 않으면 상호 배제된 다른 쪽 코드가 `Deadlock`이 걸리는 예제를 봤다. 하지만 이런 경우는 1차원적인 예제로, 프로그래머가 굉장히 멍청한 경우라고 볼 수 있다. 실제 발생되는 Deadlock은 어떻게 일어나는 것인지 알아보자.
+![[Pasted image 20240827132431.png]]
+자물쇠가 여러개일 때, 그리고 한 스레드가 두 자물쇠 모두에 접근해야 하는데, 위처럼 다른 스레드가 자물쇠를 하나씩 물고 있어 버리면 둘 다 Deadlock 상태가 되어버린다. 
+
+```cs
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace ServerCore
+{
+    class SessionManager
+    {
+        static object _lock = new object();
+
+        public static void TestSession()
+        {
+            lock (_lock)
+            {
+                
+            }
+        }
+
+        public static void Test()
+        {
+            lock (_lock)
+            {
+                UserManager.TestUser();
+            }
+        }
+    }
+
+    class UserManager
+    {
+        static object _lock = new object();
+
+        public static void Test()
+        {
+            lock (_lock)
+            {
+                SessionManager.TestSession();
+            }
+        }
+
+        public static void TestUser()
+        {
+            lock (_lock)
+            {
+                
+            }
+        }
+    }
+
+    class Program
+    {
+        static int number = 0;
+        static object _obj = new object();
+        
+        static void Thread1()
+        {
+            for (int i = 0; i < 10000; i++)
+            {
+                SessionManager.Test();
+                
+            }
+                
+        }
+
+        static void Thread2()
+        {
+            for (int i = 0; i < 10000; i++)
+            {
+                UserManager.Test();
+            }
+                
+        }
+        static void Main(string[] args)
+        {
+            Task t1 = new Task(Thread1);
+            Task t2 = new Task(Thread2);
+            t1.Start();
+            t2.Start();
+
+            Task.WaitAll(t1, t2);
+
+            Console.WriteLine(number);
+        }
+    }
+}
+
+```
+위 예제에서는 SessionManager, UserManager가 서로의 메서드를 호출하는데, 다 lock이 걸려있다. 물론 코드대로 딱딱 실행된다면 문제없이 종료되어야 하는데, 코드를 실행해보면 무한 루프에 빠져서 실행이 끝나지 않는 모습을 볼 수 있다. 실행 후 일시정지를 눌러 어디에서 걸려있는지 확인해보면,
+![[Pasted image 20240827145056.png]]
+스레드에서의 작업이 끝나지 않아 위처럼 하염없이 기다리고 있는 모습을 볼 수 있다. 각 작업자 스레드의 입장도 살펴보자.
+![[Pasted image 20240827145144.png]]![[Pasted image 20240827145212.png]]
+맨 처음 다이어그램과 유사하게, 서로 막 호출하다가 데드락 상태에 빠진 모습을 볼 수 있다. 이런 복잡한 데드락은 저번과 같은 명확한 해결책은 없다. 몇 가지 해결책이 있긴 한데 그 중 하나는 다음과 같다.  
+### Monitor.TryEnter
+ 문을 계속 두드리는 데 열리지 않는다면, 상식적으로 시간이 좀 지난 후에 포기할 수도 있지 않은가? 이 방법이 바로 `Monitor.TryEnter()`를 사용하는 방법이다.
+ ![[Pasted image 20240827145912.png]]
+ 이런게 있긴 하지만, `Try-Catch`문과 비슷하게, 궁극적인 문제점을 해결하는게 아니다 보니 사용을 크게 추천하진 않는다. 애초에 데드락이 발생했다는 것은 락 구조에 문제가 있다는 것이므로, 락 구조를 바꾸는 식으로 문제를 해결하는 방향이 바람직하다. 사실 위 예제 코드의 데드락은 두 `Task` 를 동시에 실행하지 않고, 약간의 시간차를 주기만 하면 해결된다.
+```cs
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace ServerCore
+{
+    class SessionManager
+    {
+        static object _lock = new object();
+
+        public static void TestSession()
+        {
+            lock (_lock)
+            {
+                
+            }
+        }
+
+        public static void Test()
+        {
+            lock (_lock)
+            {
+                UserManager.TestUser();
+            }
+        }
+    }
+
+    class UserManager
+    {
+        static object _lock = new object();
+
+        public static void Test()
+        {
+            lock (_lock)
+            {
+                SessionManager.TestSession();
+            }
+        }
+
+        public static void TestUser()
+        {
+            lock (_lock)
+            {
+                
+            }
+        }
+    }
+
+    class Program
+    {
+        static int number = 0;
+        static object _obj = new object();
+        
+        static void Thread1()
+        {
+            for (int i = 0; i < 10000; i++)
+            {
+                SessionManager.Test();
+                
+            }
+                
+        }
+
+        static void Thread2()
+        {
+            for (int i = 0; i < 10000; i++)
+            {
+                UserManager.Test();
+            }
+                
+        }
+        static void Main(string[] args)
+        {
+            Task t1 = new Task(Thread1);
+            Task t2 = new Task(Thread2);
+            t1.Start();
+
+            Thread.Sleep(100);
+
+            t2.Start();
+
+            Task.WaitAll(t1, t2);
+
+            Console.WriteLine(number);
+        }
+    }
+}
+
+```

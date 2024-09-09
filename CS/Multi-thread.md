@@ -773,3 +773,91 @@ namespace ServerCore
 }
 
 ```
+
+## Lock 구현 이론
+
+다시 식당 비유로 돌아가서 Lock 구현 이론을 비유적으로 알아보자.
+화장실에 갔는데, 안에 사람이 있을 때 어떻게 할 수 있을까?
+### 존버 메타 (SpinLock)
+![[Pasted image 20240902230956.png]]
+```cs
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace ServerCore
+{
+    class SpinLock
+    {
+        volatile int _locked = 0;
+
+        public void Acquire()
+        {
+            while (true)
+            {
+                //int original = Interlocked.Exchange(ref _locked, 1);
+                //if (original == 0)
+                //    break;
+
+                //CAS Compare-And-Swap
+                int expected = 0;
+                int desired = 1;
+                if (Interlocked.CompareExchange(ref _locked, desired, expected) == expected)
+                    break;
+            }
+        }
+
+        public void Release()
+        {
+            _locked = 0;
+        }
+    }
+
+    class Program
+    {
+        static int _num = 0;
+        static SpinLock _lock = new SpinLock();
+
+        static void Thread_1()
+        {
+            for (int i = 0; i < 100000; i++)
+            {
+                _lock.Acquire();
+                _num++;
+                _lock.Release();
+            }
+        }
+
+        static void Thread_2()
+        {
+            for (int i = 0; i < 100000; i++)
+            {
+                _lock.Acquire();
+                _num--;
+                _lock.Release();
+            }
+        }
+
+        static void Main(string[] args)
+        {
+            Task t1 = new Task(Thread_1);
+            Task t2 = new Task(Thread_2);
+            t1.Start();
+            t2.Start();
+
+            Task.WaitAll(t1, t2);
+
+            Console.WriteLine(_num);
+        }
+    }
+}
+
+```
+뽀인뜨 :
+- Interlocked.Exchange & Interlocked.CompareExchange : 후자가 일반적으로 많이  쓰임
+-  변수가 저장되는 곳 - 힙인가 스택인가. 스택이면 세이프 존. 데인저 존을 보는 눈을 기르자
+### 랜덤 메타 (ContextSwitching)
+![[Pasted image 20240902231024.png]]
+
+### 갑질 메타 (AutoResetEvent)
+![[Pasted image 20240902231032.png]]

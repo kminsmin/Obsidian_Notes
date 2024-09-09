@@ -5,6 +5,10 @@
       "path": "CS/Multi-thread.md"
     },
     {
+      "basename": "백준",
+      "path": "Algorithm Test/백준.md"
+    },
+    {
       "basename": "Game Server",
       "path": "CS/Game Server.md"
     }

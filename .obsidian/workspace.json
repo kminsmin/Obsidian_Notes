@@ -28,18 +28,6 @@
         "dimension": 75.40613718411552,
         "children": [
           {
-            "id": "d7676b3e94700b05",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Algorithm Test/Bronze/수학은 비대면강의입니다..md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
             "id": "74f8cb175287eca4",
             "type": "leaf",
             "state": {
@@ -73,8 +61,7 @@
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -212,6 +199,11 @@
   },
   "active": "74f8cb175287eca4",
   "lastOpenFiles": [
+    "Algorithm Test/백준.md",
+    "CS/Multi-thread.md",
+    "Pasted image 20240902231032.png",
+    "Pasted image 20240902231024.png",
+    "Pasted image 20240902230956.png",
     "Pasted image 20240827145912.png",
     "Pasted image 20240827145212.png",
     "Pasted image 20240827145144.png",
@@ -220,14 +212,8 @@
     "CS/Game Server.md",
     "Pasted image 20240808153942.png",
     "Pasted image 20240808152626.png",
-    "Pasted image 20240808145940.png",
-    "Pasted image 20240807135308.png",
-    "Pasted image 20240806234344.png",
-    "Pasted image 20240806234240.png",
     "Algorithm Test/Bronze/수학은 비대면강의입니다..md",
-    "CS/Multi-thread.md",
     "CS/CS Basics.md",
-    "Algorithm Test/백준.md",
     "Algorithm Test/Bronze",
     "Algorithm Test",
     "CS/Algorithm.md",

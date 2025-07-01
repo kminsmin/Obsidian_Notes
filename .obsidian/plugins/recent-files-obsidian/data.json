@@ -1,8 +1,28 @@
 {
   "recentFiles": [
     {
+      "basename": "Assembly",
+      "path": "CS/C++/Assembly.md"
+    },
+    {
+      "basename": "C++",
+      "path": "CS/C++/C++.md"
+    },
+    {
+      "basename": "CS Basics",
+      "path": "CS/CS Basics.md"
+    },
+    {
+      "basename": "Algorithm",
+      "path": "CS/Algorithm.md"
+    },
+    {
       "basename": "Multi-thread",
       "path": "CS/Multi-thread.md"
+    },
+    {
+      "basename": "Data Structure",
+      "path": "CS/Data Structure.md"
     },
     {
       "basename": "백준",

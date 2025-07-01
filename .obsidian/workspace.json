@@ -4,28 +4,8 @@
     "type": "split",
     "children": [
       {
-        "id": "282502f2f66ed6bc",
-        "type": "tabs",
-        "dimension": 24.593862815884478,
-        "children": [
-          {
-            "id": "089d9b5c158e1f52",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "CS/Game Server.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          }
-        ]
-      },
-      {
         "id": "0c7ce83e00048297",
         "type": "tabs",
-        "dimension": 75.40613718411552,
         "children": [
           {
             "id": "74f8cb175287eca4",
@@ -33,29 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "CS/Multi-thread.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "34dc720128e9c6a1",
-            "type": "leaf",
-            "state": {
-              "type": "release-notes",
-              "state": {
-                "currentVersion": "1.6.7"
-              }
-            }
-          },
-          {
-            "id": "f66a606c008133b1",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Algorithm Test/백준.md",
+                "file": "CS/C++/Assembly.md",
                 "mode": "source",
                 "source": false
               }
@@ -115,8 +73,7 @@
               "state": {}
             }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "horizontal",
@@ -136,7 +93,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "CS/Multi-thread.md",
+                "file": "CS/C++/Assembly.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -153,7 +110,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "CS/Multi-thread.md",
+                "file": "CS/C++/Assembly.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -176,7 +133,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "CS/Multi-thread.md"
+                "file": "CS/C++/Assembly.md"
               }
             }
           }
@@ -197,10 +154,16 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "74f8cb175287eca4",
+  "active": "0eba174714fcc00a",
   "lastOpenFiles": [
-    "Algorithm Test/백준.md",
+    "CS/C++/C++.md",
+    "CS/C++/Assembly.md",
+    "CS/CS Basics.md",
+    "CS/Algorithm.md",
+    "CS/C++",
     "CS/Multi-thread.md",
+    "CS/Data Structure.md",
+    "Algorithm Test/백준.md",
     "Pasted image 20240902231032.png",
     "Pasted image 20240902231024.png",
     "Pasted image 20240902230956.png",
@@ -213,13 +176,10 @@
     "Pasted image 20240808153942.png",
     "Pasted image 20240808152626.png",
     "Algorithm Test/Bronze/수학은 비대면강의입니다..md",
-    "CS/CS Basics.md",
     "Algorithm Test/Bronze",
     "Algorithm Test",
-    "CS/Algorithm.md",
     "CS",
     "GameServer",
-    "CS/Data Structure.md",
     "Untitled.canvas"
   ]
 }

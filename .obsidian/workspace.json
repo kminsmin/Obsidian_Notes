@@ -84,7 +84,8 @@
               "title": "Recent Files"
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -180,6 +181,8 @@
   },
   "active": "74f8cb175287eca4",
   "lastOpenFiles": [
+    "Pasted image 20250703001803.png",
+    "Pasted image 20250703001744.png",
     "Pasted image 20250702161538.png",
     "Pasted image 20250702135127.png",
     "Pasted image 20250702135059.png",
@@ -197,8 +200,6 @@
     "Algorithm Test/백준.md",
     "Pasted image 20240902231032.png",
     "Pasted image 20240902231024.png",
-    "Pasted image 20240902230956.png",
-    "Pasted image 20240827145912.png",
     "CS/Game Server.md",
     "Algorithm Test/Bronze/수학은 비대면강의입니다..md",
     "Algorithm Test/Bronze",

@@ -205,3 +205,13 @@ section .bss
 
 num resb 1
 ```
+
+### 쉬프트 연산과 논리 연산
+
+#### 쉬프트 연산
+-  `shl reg, bit_count` : 왼쪽으로 bit_count 만큼 해당 레지스터의 비트를 민다.
+-  `shr reg, bit_count` : 오른쪽으로 bit_count 만큼 해당 레지스터의 비트를 민다.
+##### 예제
+![[Pasted image 20250703001744.png]]
+![[Pasted image 20250703001803.png]]
+레지스터 할당 크기를 넘어서서 비트를 밀어버리게 되면 밀려난 부분은 소실된다.

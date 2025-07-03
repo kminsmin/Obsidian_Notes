@@ -223,3 +223,46 @@ num resb 1
 - xor : 둘 다 1이거나 둘 다 0이면 0, 아니면 1
 	-  ==동일한 값으로 xor 연산을 두 번 하면 자기 자신으로 되돌아옴==
 	- 암호학에서 유용하다! (value xor key)
+
+### 분기문
+	특정 조건에 따라서 코드 흐름을 제어하는 것(if)
+- ==CMP== dst, src (dst가 기준)
+- 비교를 한 결과물은 ==Flag Register==  저장
+- ==JMP== {label} 시리즈
+	- JMP : 무조건 jump
+	- JE : JumpEquals. 같으면 jump
+	- JNE : JumpNotEquals. 다르면 jump
+	- JG : JumpGreater. 크면 jump
+	- JGE : JumpGreaterEquals. 크거나 같으면 jump
+	- JL
+	- JLE
+
+#### 연습문제
+	두 숫자가 같으면 1, 아니면 0을 출력하는 프로그램
+```Assembly
+%include "io64.inc"
+
+section .text
+global main
+main:
+	mov rbp, rsp; for correct debugging  
+
+	; 분기문(if)
+	; 연습문제 : 어떤 숫자(1~100)가 짝수면 1, 홀수면 0을 출력하는 프로그램
+	mov ax, 98
+	mov bl, 2
+	div bl
+	cmp ah, 0
+	je LABEL_EQUAL
+	mov rcx, 0
+	jmp LABEL_EQUAL_END
+
+LABEL_EQUAL:
+	mov rcx,1
+LABEL_EQUAL_END:
+	PRINT_HEX 1, rcx
+	NEWLINE
+	xor rax, rax
+
+ret
+```

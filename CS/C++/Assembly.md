@@ -266,3 +266,12 @@ LABEL_EQUAL_END:
 
 ret
 ```
+
+### 반복문
+	 특정 조건을 만족할 때까지 반복해서 실행.
+	 while, for do-while
+#### 연습문제
+두 가지 풀이법 
+- 직접 카운팅
+- loop 활용
+![[Pasted image 20250703144713.png]]

@@ -205,3 +205,121 @@ section .bss
 
 num resb 1
 ```
+
+### 쉬프트 연산과 논리 연산
+
+#### 쉬프트 연산
+-  `shl reg, bit_count` : 왼쪽으로 bit_count 만큼 해당 레지스터의 비트를 민다.
+-  `shr reg, bit_count` : 오른쪽으로 bit_count 만큼 해당 레지스터의 비트를 민다.
+##### 예제
+![[Pasted image 20250703001744.png]]
+![[Pasted image 20250703001803.png]]
+레지스터 할당 크기를 넘어서서 비트를 밀어버리게 되면 밀려난 부분은 소실된다.
+
+#### 논리 연산
+- not
+- and
+- or
+- xor : 둘 다 1이거나 둘 다 0이면 0, 아니면 1
+	-  ==동일한 값으로 xor 연산을 두 번 하면 자기 자신으로 되돌아옴==
+	- 암호학에서 유용하다! (value xor key)
+
+### 분기문
+	특정 조건에 따라서 코드 흐름을 제어하는 것(if)
+- ==CMP== dst, src (dst가 기준)
+- 비교를 한 결과물은 ==Flag Register==  저장
+- ==JMP== {label} 시리즈
+	- JMP : 무조건 jump
+	- JE : JumpEquals. 같으면 jump
+	- JNE : JumpNotEquals. 다르면 jump
+	- JG : JumpGreater. 크면 jump
+	- JGE : JumpGreaterEquals. 크거나 같으면 jump
+	- JL
+	- JLE
+
+#### 연습문제
+	두 숫자가 같으면 1, 아니면 0을 출력하는 프로그램
+```Assembly
+%include "io64.inc"
+
+section .text
+global main
+main:
+	mov rbp, rsp; for correct debugging  
+
+	; 분기문(if)
+	; 연습문제 : 어떤 숫자(1~100)가 짝수면 1, 홀수면 0을 출력하는 프로그램
+	mov ax, 98
+	mov bl, 2
+	div bl
+	cmp ah, 0
+	je LABEL_EQUAL
+	mov rcx, 0
+	jmp LABEL_EQUAL_END
+
+LABEL_EQUAL:
+	mov rcx,1
+LABEL_EQUAL_END:
+	PRINT_HEX 1, rcx
+	NEWLINE
+	xor rax, rax
+
+ret
+```
+
+### 반복문
+	 특정 조건을 만족할 때까지 반복해서 실행.
+	 while, for do-while
+#### 연습문제
+두 가지 풀이법 
+- 직접 카운팅
+- loop 활용
+![[Pasted image 20250703144713.png]]
+
+### 배열과 주소
+
+#### 배열
+	동일한 타입의 데이터 묶음
+- 배열을 구성하는 각 값을 배열 요소(element)라고 함
+- 배열의 위치를 가리키는 숫자를 인덱스(index)라고 함
+
+지난 시간에 메모리에 저장한 변수를 그대로 mov 명령어를 통해 레지스터로 받아오게 되면, 변수에 저장된 값이 아니라 주소값이 복사된다는  것을 배웠다.
+![[Pasted image 20250703150453.png]]
+![[Pasted image 20250703150550.png]]
+이렇게 mov rax, a를 실행하게 되면 rax 에 a의 주소가 저장된다. 이 주소를 복사해서 메모리 창에서 확인해보면...
+![[Pasted image 20250703150639.png]]
+이렇게 a에 접근할 수 있다. 이 주소를 활용해서, a에 저장된 값을 출력해보자. a의 맨 앞에 있는 1 하나만 출력된다. 그렇다면 나머지 값들은 어떻게 뽑아낼 수 있을까?
+![[Pasted image 20250703150822.png]]
+![[Pasted image 20250703150905.png]]
+
+#### 주소
+- 시작주소 + 인덱스X크기
+주소값에 1씩 더해서 출력해보자. 놀랍게도 인덱스로 접근한 것처럼  a의 나머지 값들을 가져올 수 있다.
+![[Pasted image 20250703151039.png]]
+![[Pasted image 20250703151048.png]]
+이렇게 하드코딩 하지 말고 저번 시간에 배운 반복문을 통해 우아하게 a의 모든 값을 출력해보자.
+![[Pasted image 20250703155158.png]]
+b의 경우 데이터 하나 당 크기가 2바이트이기 때문에, 인덱스에 2를 곱해줬다.
+결과 :
+![[Pasted image 20250703155241.png]]
+### 함수
+	프로시저(procedure), 서브루틴(subroutine)
+-  저번에 배운 점프 시리즈를 활용하면 함수 비슷한 무언가를 만들 수는 있다.
+-  하지만 레지스터를 활용해서 인자를 받고 결과를 저장할 경우, 레지스터 수가 부족할 수 있다.
+-  그렇다고 .data나 .bss 영역을 사용하자니 함수를 위해 메모리까지 접근하는 것은 비효율적
+-  **다른 메모리 구조가 필요하다** => ==스택 메모리==
+![[Pasted image 20250703165427.png]]
+
+### 스택 메모리
+	스택 메모리, 스택 프레임
+- 함수가 사용하는 일종의 메모장
+	-  매개 변수 전달
+	- 돌아갈 주소 관리
+
+#### 레지스터의 다양한 용도
+- a b c d .. 범용 레지스터
+- 포인터 레지스터 (포인터 = 위치를 가리키는~)
+	- ip (Instruction Pointer) : 다음 수행 명령어의 위치
+	- sp (Stack Pointer) : 현재 스택 top 위치 (일종의 cursor)
+	- bp (Base Pointer) : 스택 상대주소 계산용
+![[Pasted image 20250703175749.png]]

@@ -84,7 +84,8 @@
               "title": "Recent Files"
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -180,13 +181,17 @@
   },
   "active": "74f8cb175287eca4",
   "lastOpenFiles": [
-    "Pasted image 20250702161538.png",
-    "Pasted image 20250702135127.png",
-    "Pasted image 20250702135059.png",
-    "Pasted image 20250702134227.png",
-    "Pasted image 20250702121919.png",
-    "Pasted image 20250702121829.png",
-    "Pasted image 20250701231233.png",
+    "Pasted image 20250703175749.png",
+    "Pasted image 20250703165427.png",
+    "Pasted image 20250703155241.png",
+    "Pasted image 20250703155158.png",
+    "Pasted image 20250703151048.png",
+    "Pasted image 20250703151039.png",
+    "Pasted image 20250703150905.png",
+    "Pasted image 20250703150822.png",
+    "Pasted image 20250703150639.png",
+    "Pasted image 20250703150550.png",
+    "Pasted image 20250703150453.png",
     "CS/C++/C++.md",
     "CS/C++/Assembly.md",
     "CS/CS Basics.md",
@@ -195,10 +200,6 @@
     "CS/Multi-thread.md",
     "CS/Data Structure.md",
     "Algorithm Test/백준.md",
-    "Pasted image 20240902231032.png",
-    "Pasted image 20240902231024.png",
-    "Pasted image 20240902230956.png",
-    "Pasted image 20240827145912.png",
     "CS/Game Server.md",
     "Algorithm Test/Bronze/수학은 비대면강의입니다..md",
     "Algorithm Test/Bronze",

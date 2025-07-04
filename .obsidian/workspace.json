@@ -4,6 +4,22 @@
     "type": "split",
     "children": [
       {
+        "id": "0009e480f3c3954d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "d1d52e6081dde063",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {},
+              "icon": "lucide-git-fork",
+              "title": "Graph view"
+            }
+          }
+        ]
+      },
+      {
         "id": "0c7ce83e00048297",
         "type": "tabs",
         "children": [
@@ -179,13 +195,13 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "74f8cb175287eca4",
+  "active": "d1d52e6081dde063",
   "lastOpenFiles": [
+    "CS/C++/C++.md",
+    "데이터 갖고 놀기.md",
     "Pasted image 20250704111547.png",
     "Pasted image 20250704111352.png",
     "Pasted image 20250704111257.png",
-    "CS/C++/C++.md",
-    "데이터 갖고 놀기.md",
     "CS/C++/Assembly.md",
     "Pasted image 20250703175749.png",
     "Pasted image 20250703165427.png",
@@ -194,7 +210,6 @@
     "Pasted image 20250703151048.png",
     "Pasted image 20250703151039.png",
     "Pasted image 20250703150905.png",
-    "Pasted image 20250703150822.png",
     "CS/CS Basics.md",
     "CS/Algorithm.md",
     "CS/C++",

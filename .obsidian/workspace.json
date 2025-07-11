@@ -33,12 +33,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "데이터 갖고 놀기.md",
+                "file": "코드의 흐름 제어.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "데이터 갖고 놀기"
+              "title": "코드의 흐름 제어"
             }
           }
         ]
@@ -201,9 +201,10 @@
   },
   "active": "74f8cb175287eca4",
   "lastOpenFiles": [
-    "CS/C++/Assembly.md",
     "CS/C++/C++.md",
+    "코드의 흐름 제어.md",
     "데이터 갖고 놀기.md",
+    "CS/C++/Assembly.md",
     "Pasted image 20250704111547.png",
     "Pasted image 20250704111352.png",
     "Pasted image 20250704111257.png",

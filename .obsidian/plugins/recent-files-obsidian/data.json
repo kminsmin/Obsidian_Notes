@@ -5,12 +5,12 @@
       "path": "코드의 흐름 제어.md"
     },
     {
-      "basename": "C++",
-      "path": "CS/C++/C++.md"
-    },
-    {
       "basename": "데이터 갖고 놀기",
       "path": "데이터 갖고 놀기.md"
+    },
+    {
+      "basename": "C++",
+      "path": "CS/C++/C++.md"
     },
     {
       "basename": "Assembly",

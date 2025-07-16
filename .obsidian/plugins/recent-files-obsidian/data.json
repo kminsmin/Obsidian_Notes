@@ -1,16 +1,20 @@
 {
   "recentFiles": [
     {
-      "basename": "코드의 흐름 제어",
-      "path": "코드의 흐름 제어.md"
-    },
-    {
-      "basename": "데이터 갖고 놀기",
-      "path": "데이터 갖고 놀기.md"
+      "basename": "함수",
+      "path": "CS/C++/함수.md"
     },
     {
       "basename": "C++",
       "path": "CS/C++/C++.md"
+    },
+    {
+      "basename": "데이터 갖고 놀기",
+      "path": "CS/C++/데이터 갖고 놀기.md"
+    },
+    {
+      "basename": "코드의 흐름 제어",
+      "path": "CS/C++/코드의 흐름 제어.md"
     },
     {
       "basename": "Assembly",

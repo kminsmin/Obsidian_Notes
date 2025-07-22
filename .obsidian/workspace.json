@@ -104,7 +104,8 @@
               "title": "Recent Files"
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -200,6 +201,8 @@
   },
   "active": "d1d52e6081dde063",
   "lastOpenFiles": [
+    "Pasted image 20250722123127.png",
+    "Pasted image 20250721133200.png",
     "CS/C++/C++.md",
     "CS/C++/함수.md",
     "CS/C++/데이터 갖고 놀기.md",
@@ -214,7 +217,6 @@
     "Pasted image 20250704111547.png",
     "Pasted image 20250704111352.png",
     "Pasted image 20250704111257.png",
-    "Pasted image 20250703175749.png",
     "CS/CS Basics.md",
     "CS/Algorithm.md",
     "CS/C++",

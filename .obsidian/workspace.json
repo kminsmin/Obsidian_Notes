@@ -4,7 +4,7 @@
     "type": "split",
     "children": [
       {
-        "id": "0c7ce83e00048297",
+        "id": "0b54ce3d9a0bfd07",
         "type": "tabs",
         "children": [
           {
@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "CS/C++/코드의 흐름 제어.md",
+                "file": "CS/C++/함수.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "코드의 흐름 제어"
+              "title": "함수"
             }
           }
         ]
@@ -33,12 +33,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "CS/C++/함수.md",
+                "file": "포인터.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "함수"
+              "title": "포인터"
             }
           }
         ]
@@ -201,12 +201,13 @@
   },
   "active": "d1d52e6081dde063",
   "lastOpenFiles": [
+    "CS/C++/함수.md",
+    "CS/C++/코드의 흐름 제어.md",
+    "포인터.md",
+    "CS/C++/C++.md",
     "Pasted image 20250722123127.png",
     "Pasted image 20250721133200.png",
-    "CS/C++/C++.md",
-    "CS/C++/함수.md",
     "CS/C++/데이터 갖고 놀기.md",
-    "CS/C++/코드의 흐름 제어.md",
     "Pasted image 20250715155835.png",
     "Pasted image 20250715145938.png",
     "Pasted image 20250715145437.png",
@@ -216,7 +217,6 @@
     "CS/C++/Assembly.md",
     "Pasted image 20250704111547.png",
     "Pasted image 20250704111352.png",
-    "Pasted image 20250704111257.png",
     "CS/CS Basics.md",
     "CS/Algorithm.md",
     "CS/C++",

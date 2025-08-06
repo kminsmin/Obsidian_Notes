@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "포인터.md",
+                "file": "객체지향.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "포인터"
+              "title": "객체지향"
             }
           }
         ]
@@ -33,12 +33,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "객체지향.md",
+                "file": "동적할당.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "객체지향"
+              "title": "동적할당"
             }
           }
         ]
@@ -201,11 +201,14 @@
   },
   "active": "d1d52e6081dde063",
   "lastOpenFiles": [
+    "Pasted image 20250806130011.png",
+    "Pasted image 20250806125557.png",
+    "CS/C++/C++.md",
+    "동적할당.md",
+    "객체지향.md",
+    "포인터.md",
     "Pasted image 20250805123941.png",
     "Pasted image 20250805123130.png",
-    "포인터.md",
-    "객체지향.md",
-    "CS/C++/C++.md",
     "CS/C++/함수.md",
     "Pasted image 20250801181409.png",
     "Pasted image 20250730182355.png",
@@ -216,8 +219,6 @@
     "Pasted image 20250721133200.png",
     "CS/C++/데이터 갖고 놀기.md",
     "Pasted image 20250715155835.png",
-    "Pasted image 20250715145938.png",
-    "Pasted image 20250715145437.png",
     "CS/C++/Assembly.md",
     "CS/CS Basics.md",
     "CS/Algorithm.md",

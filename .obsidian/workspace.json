@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "0b54ce3d9a0bfd07",
+        "id": "0c7ce83e00048297",
         "type": "tabs",
         "children": [
           {
-            "id": "74f8cb175287eca4",
+            "id": "8a84ea5365bca008",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -24,11 +24,11 @@
         ]
       },
       {
-        "id": "21d17a70cd2f8945",
+        "id": "7eca984312715a50",
         "type": "tabs",
         "children": [
           {
-            "id": "d1d52e6081dde063",
+            "id": "c3b4df40d8f631f3",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -109,7 +109,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "90bca6b06951ccfc",
@@ -199,29 +200,28 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "d1d52e6081dde063",
+  "active": "c3b4df40d8f631f3",
   "lastOpenFiles": [
-    "Pasted image 20250806130011.png",
-    "Pasted image 20250806125557.png",
+    "객체지향.md",
     "CS/C++/C++.md",
     "동적할당.md",
-    "객체지향.md",
-    "포인터.md",
+    "Pasted image 20250806130011.png",
+    "Pasted image 20250806125557.png",
     "Pasted image 20250805123941.png",
     "Pasted image 20250805123130.png",
-    "CS/C++/함수.md",
+    "포인터.md",
+    "CS/Algorithm.md",
     "Pasted image 20250801181409.png",
     "Pasted image 20250730182355.png",
     "Pasted image 20250730174803.png",
     "Pasted image 20250730133020.png",
-    "CS/C++/코드의 흐름 제어.md",
     "Pasted image 20250722123127.png",
     "Pasted image 20250721133200.png",
+    "CS/C++/함수.md",
+    "CS/C++/코드의 흐름 제어.md",
     "CS/C++/데이터 갖고 놀기.md",
-    "Pasted image 20250715155835.png",
     "CS/C++/Assembly.md",
     "CS/CS Basics.md",
-    "CS/Algorithm.md",
     "CS/C++",
     "CS/Multi-thread.md",
     "CS/Data Structure.md",

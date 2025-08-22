@@ -1,16 +1,20 @@
 {
   "recentFiles": [
     {
-      "basename": "동적할당",
-      "path": "동적할당.md"
+      "basename": "디버깅",
+      "path": "디버깅.md"
+    },
+    {
+      "basename": "C++",
+      "path": "CS/C++/C++.md"
     },
     {
       "basename": "객체지향",
       "path": "객체지향.md"
     },
     {
-      "basename": "C++",
-      "path": "CS/C++/C++.md"
+      "basename": "동적할당",
+      "path": "동적할당.md"
     },
     {
       "basename": "포인터",
